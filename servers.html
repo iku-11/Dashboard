@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>✨ السيرفرات التي تملكها ✨</title>
+    <style>
+      body {
+        background-color: #0d0d0d;
+        color: #fff;
+        font-family: "Tajawal", sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 20px;
+      }
+      h1 {
+        color: #ffd700;
+        font-size: 26px;
+      }
+      .loading {
+        margin-top: 20px;
+        color: #bbb;
+        font-size: 18px;
+      }
+      .server-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 25px;
+      }
+      .server {
+        background: #1e1e1e;
+        border-radius: 15px;
+        padding: 15px;
+        width: 200px;
+        margin: 10px;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+        transition: transform 0.2s ease;
+      }
+      .server:hover {
+        transform: scale(1.05);
+      }
+      img {
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+      }
+      .name {
+        margin-top: 10px;
+        font-size: 16px;
+        color: #fff;
+      }
+      footer {
+        margin-top: 40px;
+        color: #777;
+        font-size: 14px;
+      }
+      a.logout {
+        color: #ff4b4b;
+        text-decoration: none;
+        font-weight: bold;
+        position: fixed;
+        top: 15px;
+        left: 20px;
+      }
+      a.logout:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="/logout" class="logout">🚪 تسجيل الخروج</a>
+    <h1>⭐ السيرفرات التي تملكها ⭐</h1>
+    <p class="loading">⏳ جاري تحميل السيرفرات...</p>
+    <div class="server-list" id="servers"></div>
+
+    <footer>✨ Kurona Dashboard ©</footer>
+
+    <script>
+      async function loadServers() {
+        try {
+          const res = await fetch("/api/servers");
+          if (!res.ok) {
+            document.querySelector(".loading").textContent = "😿 لم يتم تسجيل الدخول!";
+            return;
+          }
+
+          const servers = await res.json();
+          const container = document.getElementById("servers");
+          const loadingText = document.querySelector(".loading");
+
+          if (servers.length === 0) {
+            loadingText.textContent = "😺 لا يوجد سيرفرات تملكين إدارتها.";
+            return;
+          }
+
+          loadingText.style.display = "none";
+          servers.forEach((s) => {
+            const div = document.createElement("div");
+            div.className = "server";
+
+            const icon = s.icon
+              ? `https://cdn.discordapp.com/icons/${s.id}/${s.icon}.png`
+              : "https://cdn.discordapp.com/embed/avatars/1.png";
+
+            div.innerHTML = `
+              <img src="${icon}" alt="server icon">
+              <div class="name">${s.name}</div>
+            `;
+
+            container.appendChild(div);
+          });
+        } catch (err) {
+          document.querySelector(".loading").textContent = "💔 فشل في تحميل السيرفرات";
+          console.error(err);
+        }
+      }
+
+      loadServers();
+    </script>
+  </body>
+</html>

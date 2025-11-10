@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إعدادات السيرفر ⚙️</title>
+  <style>
+    body {
+      font-family: "Tajawal", sans-serif;
+      margin: 0;
+      background-color: #0d0d0d;
+      color: white;
+      display: flex;
+      height: 100vh;
+    }
+
+    aside {
+      width: 250px;
+      background-color: #111;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .menu button {
+      background: none;
+      border: none;
+      color: white;
+      text-align: right;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .menu button:hover {
+      background-color: #222;
+    }
+
+    .logout {
+      background-color: #ff4444;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .logout:hover {
+      background-color: #ff6666;
+    }
+
+    main {
+      flex: 1;
+      padding: 30px;
+      background-color: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .server-info img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px solid #5865f2;
+    }
+
+    .server-info h2 {
+      margin-top: 10px;
+      color: #fff;
+    }
+
+    .lang-select {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background-color: #222;
+      color: white;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <div>
+      <h2>⚙️ لوحة التحكم</h2>
+      <div class="menu">
+        <button onclick="showHome()">🏠 الرئيسية</button>
+        <button onclick="showSettings()">🔧 الإعدادات</button>
+        <button onclick="showLang()">🌐 اللغة</button>
+      </div>
+    </div>
+    <button class="logout" onclick="window.location.href='index.html'">تسجيل الخروج</button>
+  </aside>
+
+  <main id="mainContent">
+    <p>جاري تحميل إعدادات السيرفر... ✨</p>
+  </main>
+
+  <script>
+    // نحصل على رقم السيرفر من الرابط
+    const params = new URLSearchParams(window.location.search);
+    const serverId = params.get("id");
+
+    // عرض البيانات الوهمية
+    function loadServerData() {
+      const main = document.getElementById("mainContent");
+      main.innerHTML = `
+        <div class="server-info">
+          <img src="https://cdn.discordapp.com/icons/${serverId}/icon.png?size=128" onerror="this.src='https://cdn.discordapp.com/embed/avatars/1.png'">
+          <h2>إعدادات السيرفر #${serverId}</h2>
+          <p>اختاري الإعداد اللي تبينه من القائمة الجانبية 💞</p>
+        </div>
+      `;
+    }
+
+    function showHome() {
+      loadServerData();
+    }
+
+    function showSettings() {
+      const main = document.getElementById("mainContent");
+      main.innerHTML = `
+        <h2>إعدادات البوت 🔧</h2>
+        <p>إعدادات وهمية لعرض التصميم فقط 🙂</p>
+        <ul style="text-align:right;">
+          <li>تشغيل الرد التلقائي ✅</li>
+          <li>نظام التحذيرات 🔔</li>
+          <li>إرسال الترحيب 💬</li>
+        </ul>
+      `;
+    }
+
+    function showLang() {
+      const main = document.getElementById("mainContent");
+      main.innerHTML = `
+        <h2>🌐 اللغة</h2>
+        <select class="lang-select">
+          <option>العربية</option>
+          <option>English</option>
+        </select>
+      `;
+    }
+
+    loadServerData();
+  </script>
+</body>
+</html>
